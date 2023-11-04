@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 @Component({
@@ -11,16 +11,19 @@ export class GetUnitsComponent {
   username: string = '';
   password: string = '';
 
+  response: any;
+
   constructor(
     private http: HttpClient,
-  ){
+  ) {
 
   }
 
   getUnits() {
-    // TODO fix cors
-
-    const url = `https://mongol.brono.com/mongol/api.php?commandname=get_units&format=json?user=${this.username}&pass=${this.password}`;
-    console.log('response: ', this.http.get(url).subscribe())
+    // retrieve initial information from zero api
+    const url = `/zero/mongol/api.php?commandname=get_units&format=json?user=${this.username}&pass=${this.password}`;
+    this.http.get(url).subscribe(response => {
+      this.response = response;
+    });
   }
 }

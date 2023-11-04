@@ -1,13 +1,15 @@
-<p>get unit information</p>
+<p>Step 1. Get unit information</p>
 
 <p>
-  <mat-form-field>
-    <mat-label>Username</mat-label>
-    <input matInput placeholder="user@zero" [(ngModel)]="username">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Password</mat-label>
-    <input matInput type="password" [(ngModel)]="password">
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="getUnits()">Get information</button>
+  In this initial step you'll be requested for your zero username and password to retrieve information.
+  <!--  <mat-form-field>-->
+  <!--    <mat-label>Username</mat-label>-->
+  <!--    <input matInput placeholder="user@zero" [(ngModel)]="username">-->
+  <!--  </mat-form-field>-->
+  <!--  <mat-form-field>-->
+  <!--    <mat-label>Password</mat-label>-->
+  <!--    <input matInput type="password" [(ngModel)]="password">-->
+  <!--  </mat-form-field>-->
+  <button mat-raised-button color="primary" (click)="getUnits()">Get information from account</button>
 </p>
+<pre>{{response | json}}</pre>
