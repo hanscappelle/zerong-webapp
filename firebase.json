@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "public": "dist/zerong",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}
