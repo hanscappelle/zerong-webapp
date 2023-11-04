@@ -33,6 +33,12 @@ After that you can host your app with
 
 `firebase deploy -m "commit message" --only hosting`
 
+## Adding material 
+
+Execute `ng add @angular/material` and answer questions. Pick a default theme or create your own. 
+
+Add some components, see https://material.angular.io/components/categories
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
