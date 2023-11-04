@@ -6,6 +6,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Initial project setup
 
+(just for reference, only needed once)
+
 With node and angular installed create a new project with below command & answer questions.
 
 `ng new project-name`
