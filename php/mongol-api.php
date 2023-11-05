@@ -55,6 +55,10 @@ function cors() {
     parse_str($url_components['query'], $params);
     $user = $params['user'];
     $pass = $params['pass'];
+    $command = $params['command'];
+    $unit = $params['unit'];
+    $start = $params['start'];
+    $end = $params['end'];
 
     // http_get no longer seems supported
     //$response = http_get("https://mongol.brono.com/mongol/api.php?commandname=get_units&format=json&user=&pass="
@@ -68,7 +72,7 @@ function cors() {
     //print_r($info);
 
     // curl alternative (supported)
-    $ch = curl_init("https://mongol.brono.com/mongol/api.php?commandname=get_units&format=json&user=$user&pass=$pass");
+    $ch = curl_init("https://mongol.brono.com/mongol/api.php?commandname=$command&format=json&user=$user&pass=$pass&unitnumber=$unit&start=$start&end=$end");
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, 0);

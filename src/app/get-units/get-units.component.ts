@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {MongolService} from "../service/mongol.service";
 
 @Component({
   selector: 'app-get-units',
@@ -14,17 +15,15 @@ export class GetUnitsComponent {
   response: any;
 
   constructor(
-    private http: HttpClient,
+    private service: MongolService,
   ) {
 
   }
 
   getUnits() {
-    // retrieve initial information from zero api
-    //const url = `/zero/mongol/api.php?commandname=get_units&format=json&user=${this.username}&pass=${this.password}`;
-    const url = `https://hcpl.be/api2/cors.php?user=${this.username}&pass=${this.password}`;
-    this.http.get(url).subscribe(response => {
-      this.response = response;
-    });
+    this.service.getUnits(this.username, this.password).subscribe(
+      response => this.response = response
+    );
+
   }
 }
