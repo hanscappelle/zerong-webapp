@@ -14,6 +14,9 @@ export class GetUnitsComponent {
 
   response: any;
 
+  unit: string = '';
+  vin: string = '';
+
   constructor(
     private service: MongolService,
   ) {
@@ -22,7 +25,12 @@ export class GetUnitsComponent {
 
   getUnits() {
     this.service.getUnits(this.username, this.password).subscribe(
-      response => this.response = response
+      response => {
+        this.response = response
+        console.log("received response is ", response)
+        this.unit = response[0].unitnumber
+        this.vin = response[0].name
+      }
     );
 
   }
