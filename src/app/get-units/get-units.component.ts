@@ -21,7 +21,8 @@ export class GetUnitsComponent {
 
   getUnits() {
     // retrieve initial information from zero api
-    const url = `/zero/mongol/api.php?commandname=get_units&format=json&user=${this.username}&pass=${this.password}`;
+    //const url = `/zero/mongol/api.php?commandname=get_units&format=json&user=${this.username}&pass=${this.password}`;
+    const url = `https://hcpl.be/api2/cors.php?user=${this.username}&pass=${this.password}`;
     this.http.get(url).subscribe(response => {
       this.response = response;
     });
