@@ -5,22 +5,7 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "redirects": [
-      {
-        "source": "/zero/:path*",
-        "destination": "https://mongol.brono.com/:path",
-        "type": 301
-      }
-    ],
-    "headers": [ {
-      "source": "**",
-      "headers": [ {
-        "key": "Access-Control-Allow-Origin",
-        "value": "*"
-      } ]
-    } ]
-
+    ]
   },
   "storage": {
     "rules": "storage.rules"
