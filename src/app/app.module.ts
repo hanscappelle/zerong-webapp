@@ -12,11 +12,15 @@ import { GetUnitsComponent } from './get-units/get-units.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { LastTransmitComponent } from './last-transmit/last-transmit.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GetUnitsComponent
+    GetUnitsComponent,
+    LastTransmitComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

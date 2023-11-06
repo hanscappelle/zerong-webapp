@@ -14,8 +14,8 @@ export class GetUnitsComponent {
 
   response: any;
 
-  unit: string = '';
-  vin: string = '';
+  unit: string | null = null;
+  vin: string | null = null;
 
   constructor(
     private service: MongolService,
