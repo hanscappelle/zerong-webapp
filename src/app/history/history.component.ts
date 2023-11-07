@@ -4,6 +4,8 @@ import {Subject, takeUntil} from "rxjs";
 import {Transmit} from "../model/transmit.model";
 import {initialRequest} from "../model/data-request.model";
 import {Store} from "@ngrx/store";
+import {Chart, ChartType} from 'chart.js/auto'
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-history',
@@ -18,6 +20,18 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   data: Transmit[] = [];
   properties: string[] = [];
+  selectedProperty: string = '';
+
+  chartTypes = [
+    'bar',
+    'line',
+    // 'bubble',
+    // 'scatter',
+    'radar'
+  ];
+  selectedChartType = 'bar';
+
+  chart: any;
 
   constructor(
     private store: Store,
@@ -34,6 +48,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
             if (data && data.length > 0) {
               // retrieves the properties available
               this.properties = Object.keys(data[0]);
+              this.selectedProperty = this.properties[0] ?? '';
+              this.createChart(data, this.selectedProperty);
             }
           }
         },
@@ -46,6 +62,59 @@ export class HistoryComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.next(true);
     this.sub.complete();
+  }
+
+  updateChart() {
+    this.createChart(this.data, this.selectedProperty);
+  }
+
+  private createChart(data: Transmit[], property: string) {
+    this.chart?.destroy();
+
+    this.chart = new Chart("Chart", {
+      type: this.selectedChartType as ChartType,
+      data: {
+        // values on X-Axis, date based
+        labels: data.map(t => this.makeLabel(t)),
+        datasets: [
+          {
+            label: property,
+            data: this.valuesByDate(data, property),
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        //aspectRatio: 2.5,
+      }
+
+    });
+  }
+
+  private makeLabel(t: Transmit): string {
+    if (t && t.datetime_actual && t.datetime_actual.length === "yyyyMMddHHmmss".length) {
+      return t.datetime_actual.slice(6, 8) // day
+        + '/'
+        + t.datetime_actual.slice(4, 6) // month
+        + ' '
+        + t.datetime_actual.slice(8, 10) // hours
+        + ':'
+        + t.datetime_actual.slice(10, 12) // minutes
+    } else {
+      return "NaN";
+    }
+  }
+
+  private valuesByDate(data: Transmit[], property: string) {
+    return data.map(t => {
+      const result = Object.entries(t).find(kv => kv[0] === property);
+      if (result?.length === 2) {
+        return result[1];
+      } else {
+        return 0;
+      }
+    });
   }
 
 }

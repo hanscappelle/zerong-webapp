@@ -10,12 +10,25 @@
 <p>
   <mat-form-field>
     <mat-label>Property</mat-label>
-    <mat-select>
+    <mat-select [(ngModel)]="selectedProperty" (selectionChange)="updateChart()">
       <mat-option *ngFor="let p of properties" [value]="p">
         {{p}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>Chart Type</mat-label>
+    <mat-select [(ngModel)]="selectedChartType" (selectionChange)="updateChart()">
+      <mat-option *ngFor="let t of chartTypes" [value]="t">
+        {{t}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </p>
+
+<div class="chart-container">
+  <canvas id="Chart">{{ chart }}</canvas>
+</div>
+
 
 
