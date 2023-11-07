@@ -18,6 +18,7 @@ import {dataReducer, unitsReducer} from "./state/data.reducer";
 import {DataEffects} from "./state/data.effects";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreModule} from "@ngrx/store";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {StoreModule} from "@ngrx/store";
     MatExpansionModule,
     StoreModule.forRoot({data: dataReducer, units: unitsReducer}, {}),
     EffectsModule.forRoot([DataEffects]),
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

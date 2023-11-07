@@ -42,4 +42,5 @@ export class LastTransmitComponent implements OnInit, OnDestroy {
     this.sub.next(true);
     this.sub.complete();
   }
+
 }
