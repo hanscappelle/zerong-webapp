@@ -9,6 +9,10 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+mat-form-field {
+  margin: 0 8px;
+}
+
 .info {
   font-size: small;
   opacity: 0.6;
