@@ -2,3 +2,19 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.id {
+  font-family: monospace;
+  font-weight: 200;
+  font-size: large;
+}
+
+.id:before {
+  content: "\005B";
+  margin-right: 2px;
+}
+
+.id:after {
+  content: "\005D";
+  margin-left: 2px;
+}
