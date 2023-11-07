@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {selectAllData, selectAllUnits} from "../state/data.selectors";
+import {selectLast} from "../state/data.selectors";
 import {Subject, takeUntil} from "rxjs";
 import {Store} from "@ngrx/store";
 import {initialRequest} from "../model/data-request.model";
@@ -12,7 +12,7 @@ import {Transmit} from "../model/transmit.model";
 })
 export class LastTransmitComponent implements OnInit, OnDestroy {
 
-  data$ = this.store.select(selectAllData);
+  data$ = this.store.select(selectLast);
   sub: Subject<boolean> = new Subject<boolean>();
   lastTransmit: Transmit | null = null;
 
@@ -27,9 +27,9 @@ export class LastTransmitComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.data$.pipe(takeUntil(this.sub))
       .subscribe({
-        next: (data) => {
-          if (data && data.length > 0) {
-            this.lastTransmit = data[0];
+        next: (state) => {
+          if (state.last && state.last.length > 0) {
+            this.lastTransmit = state.last[0];
           }
         },
         error: (err) => {

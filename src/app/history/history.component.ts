@@ -17,7 +17,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   request = initialRequest();
 
   data: Transmit[] = [];
-  properties : string[] = [];
+  properties: string[] = [];
 
   constructor(
     private store: Store,
@@ -31,7 +31,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
         next: (data) => {
           if (data && data.length > 0) {
             this.data = data;
-            if(data && data.length > 0){
+            if (data && data.length > 0) {
+              // retrieves the properties available
               this.properties = Object.keys(data[0]);
             }
           }

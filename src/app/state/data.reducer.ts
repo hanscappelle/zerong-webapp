@@ -1,34 +1,12 @@
 import {initialState} from './data.state';
 import {createReducer, on} from '@ngrx/store';
 import {
+  fetchFailed,
+  lastTransmit, lastTransmitSuccess,
   listData,
-  listDataFailed,
-  listDataSuccess, login, loginFailed, loginSuccess,
+  listDataSuccess, login, loginSuccess,
 } from './data.actions';
 import {ViewState} from "../model/view-state.enum";
-
-export const dataReducer = createReducer(
-  initialState,
-  on(listData, (state, {request}) => ({
-    ...state,
-    request, // keeps track of request
-    state: ViewState.LOADING,
-    message: null,
-  })),
-  on(listDataSuccess, (state, {data}) => {
-    return {
-      ...state,
-      data,
-      state: ViewState.DONE,
-      message: null,
-    };
-  }),
-  on(listDataFailed, (state, {error}) => ({
-    ...state,
-    state: ViewState.ERROR,
-    message: error,
-  })),
-);
 
 export const unitsReducer = createReducer(
   initialState,
@@ -46,7 +24,53 @@ export const unitsReducer = createReducer(
       message: null,
     };
   }),
-  on(loginFailed, (state, {error}) => ({
+  on(fetchFailed, (state, {error}) => ({
+    ...state,
+    state: ViewState.ERROR,
+    message: error,
+  })),
+);
+
+export const lastReducer = createReducer(
+  initialState,
+  on(lastTransmit, (state, {request}) => ({
+    ...state,
+    request, // keeps track of request
+    state: ViewState.LOADING,
+    message: null,
+  })),
+  on(lastTransmitSuccess, (state, {last}) => {
+    return {
+      ...state,
+      last,
+      state: ViewState.DONE,
+      message: null,
+    };
+  }),
+  on(fetchFailed, (state, {error}) => ({
+    ...state,
+    state: ViewState.ERROR,
+    message: error,
+  })),
+);
+
+export const dataReducer = createReducer(
+  initialState,
+  on(listData, (state, {request}) => ({
+    ...state,
+    request, // keeps track of request
+    state: ViewState.LOADING,
+    message: null,
+  })),
+  on(listDataSuccess, (state, {data}) => {
+    return {
+      ...state,
+      data,
+      state: ViewState.DONE,
+      message: null,
+    };
+  }),
+  on(fetchFailed, (state, {error}) => ({
     ...state,
     state: ViewState.ERROR,
     message: error,

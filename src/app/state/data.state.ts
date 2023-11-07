@@ -6,6 +6,7 @@ import {Unit} from "../model/unit.model";
 export interface TransactionState extends BaseViewState {
   request: DataRequest;
   data: Transmit[];
+  last: Transmit[];
   units: Unit[];
 }
 
@@ -17,6 +18,7 @@ export interface BaseViewState {
 export const initialState: TransactionState = {
   request: {} as DataRequest,
   data: [],
+  last: [],
   units: [],
   message: null,
   state: ViewState.LOADING,

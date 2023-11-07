@@ -3,9 +3,10 @@ import {BaseViewState} from './data.state';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
 import {
+  fetchFailed,
+  lastTransmit, lastTransmitSuccess,
   listData,
-  listDataFailed,
-  listDataSuccess, login, loginFailed, loginSuccess,
+  listDataSuccess, login, loginSuccess,
 } from './data.actions';
 import {of, switchMap, map, catchError} from 'rxjs';
 import {MongolService} from "../service/mongol.service";
@@ -25,7 +26,19 @@ export class DataEffects {
       switchMap((action) =>
         this.service.login(action.request).pipe(
           map((data) => loginSuccess({data})),
-          catchError((error) => of(loginFailed({error}))),
+          catchError((error) => of(fetchFailed({error}))),
+        ),
+      ),
+    ),
+  );
+
+  lastTransmit$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(lastTransmit),
+      switchMap((action) =>
+        this.service.lastTransmit(action.request).pipe(
+          map((last) => lastTransmitSuccess({last})),
+          catchError((error) => of(fetchFailed({error}))),
         ),
       ),
     ),
@@ -37,7 +50,7 @@ export class DataEffects {
       switchMap((action) =>
         this.service.listTransmits(action.request).pipe(
           map((data) => listDataSuccess({data})),
-          catchError((error) => of(listDataFailed({error}))),
+          catchError((error) => of(fetchFailed({error}))),
         ),
       ),
     ),

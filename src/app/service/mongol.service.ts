@@ -4,6 +4,7 @@ import {Observable, of} from "rxjs";
 import {DataRequest} from "../model/data-request.model";
 import {Transmit} from "../model/transmit.model";
 import {Unit} from "../model/unit.model";
+import {formatDate} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -36,9 +37,18 @@ export class MongolService {
     return this.http.get(url);
   }
 
+  lastTransmit(request: DataRequest): Observable<Transmit[]> {
+    return this.getLastTransmit(request.user, request.pass, request.unit ?? '');
+  }
+
   listTransmits(request: DataRequest): Observable<Transmit[]> {
-    // TODO implement getting history per 2 days
-    return this.getLastTransmit(request.user, request.pass, request.unit ?? '');//, request.start, request.end)
+    // TODO implement getting history per 2 days but repeated over longer timespan
+
+    const date = new Date();
+    const end = request.end ?? formatDate(date, 'yyyyMMddHHmmss', 'en');
+    date.setDate(date.getDate() - 2);
+    const start = request.start ?? formatDate(date, 'yyyyMMddHHmmss', 'en');
+    return this.getHistory(request.user, request.pass, request.unit ?? '', start, end)
   }
 
   login(request: DataRequest): Observable<Unit[]> {

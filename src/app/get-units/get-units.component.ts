@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {listData, login} from "../state/data.actions";
+import {lastTransmit, listData, login} from "../state/data.actions";
 import {DataRequest, initialRequest} from "../model/data-request.model";
 import {selectAllUnits} from "../state/data.selectors";
 import {Subject, takeUntil} from "rxjs";
@@ -67,6 +67,7 @@ export class GetUnitsComponent implements OnInit, OnDestroy {
 
     this.request = {...this.request};
     this.request.unit = this.unit;
+    this.store.dispatch(lastTransmit({request: this.request}))
     this.store.dispatch(listData({request: this.request}))
   }
 }
