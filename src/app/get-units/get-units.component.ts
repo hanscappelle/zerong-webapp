@@ -1,13 +1,19 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {MongolService} from "../service/mongol.service";
+import {Store} from "@ngrx/store";
+import {listData, login} from "../state/data.actions";
+import {DataRequest} from "../model/data-request.model";
+import {selectAllUnits} from "../state/data.selectors";
+import {Subject, takeUntil} from "rxjs";
+import {Unit} from "../model/unit.model";
 
 @Component({
   selector: 'app-get-units',
   templateUrl: './get-units.component.html',
   styleUrls: ['./get-units.component.scss']
 })
-export class GetUnitsComponent {
+export class GetUnitsComponent implements OnInit, OnDestroy {
 
   username: string = '';
   password: string = '';
@@ -17,21 +23,58 @@ export class GetUnitsComponent {
   unit: string | null = null;
   vin: string | null = null;
 
+  request: DataRequest = {
+    user: this.username,
+    pass: this.password,
+    unit: this.unit,
+    start: null,
+    end: null,
+  }
+
+  data$ = this.store.select(selectAllUnits);
+  sub: Subject<boolean> = new Subject<boolean>();
+
   constructor(
-    private service: MongolService,
+    private store: Store,
   ) {
 
   }
 
-  getUnits() {
-    this.service.getUnits(this.username, this.password).subscribe(
-      response => {
-        this.response = response
-        console.log("received response is ", response)
-        this.unit = response[0].unitnumber
-        this.vin = response[0].name
-      }
-    );
+  ngOnInit(): void {
+    this.data$.pipe(takeUntil(this.sub))
+      .subscribe({
+        next: (data) => {
+          this.getData(data);
+        },
+        error: (err) => {
+          console.log('problem loading data: ', err);
+        },
+      });
+  }
 
+  ngOnDestroy(): void {
+    this.sub.next(true);
+    this.sub.complete();
+  }
+
+  getUnits() {
+    this.request = {...this.request};
+    this.request.user = this.username;
+    this.request.pass = this.password;
+    this.store.dispatch(login({request: this.request}))
+  }
+
+  getData(response: Unit[]){
+    if( !response || response.length == 0 ){
+      // nothing useful received here
+      return;
+    }
+    this.response = response;
+    this.unit = response[0].unitnumber
+    this.vin = response[0].name
+
+    this.request = {...this.request};
+    this.request.unit = this.unit;
+    this.store.dispatch(listData({request: this.request}))
   }
 }

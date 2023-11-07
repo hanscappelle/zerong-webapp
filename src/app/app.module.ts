@@ -14,6 +14,10 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { LastTransmitComponent } from './last-transmit/last-transmit.component';
 import { HistoryComponent } from './history/history.component';
+import {dataReducer, unitsReducer} from "./state/data.reducer";
+import {DataEffects} from "./state/data.effects";
+import {EffectsModule} from "@ngrx/effects";
+import {StoreModule} from "@ngrx/store";
 
 @NgModule({
   declarations: [
@@ -32,7 +36,9 @@ import { HistoryComponent } from './history/history.component';
     MatInputModule,
     FormsModule,
     HttpClientModule,
-    MatExpansionModule
+    MatExpansionModule,
+    StoreModule.forRoot({data: dataReducer, units: unitsReducer}, {}),
+    EffectsModule.forRoot([DataEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
