@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {lastTransmit, listData, login} from "../state/data.actions";
-import {DataRequest, initialRequest} from "../model/data-request.model";
+import {initialRequest} from "../model/data-request.model";
 import {selectAllUnits} from "../state/data.selectors";
 import {Subject, takeUntil} from "rxjs";
 import {Unit} from "../model/unit.model";
@@ -18,6 +18,8 @@ export class GetUnitsComponent implements OnInit, OnDestroy {
 
   response: any;
 
+  units: number[] = [];
+  selectedUnit = 0;
   unit: string | null = null;
   vin: string | null = null;
 
@@ -56,18 +58,28 @@ export class GetUnitsComponent implements OnInit, OnDestroy {
     this.store.dispatch(login({request: this.request}))
   }
 
-  getData(response: Unit[]){
-    if( !response || response.length == 0 ){
+  getData(response: Unit[]) {
+    if (!response || response.length == 0) {
       // nothing useful received here
       return;
     }
     this.response = response;
-    this.unit = response[0].unitnumber
-    this.vin = response[0].name
+    this.units = [...Array(response.length).keys()]
+    this.selectedUnit = 0;
+    this.updateUnit();
+    this.fetchData();
+  }
 
+  private fetchData(): void {
     this.request = {...this.request};
     this.request.unit = this.unit;
     this.store.dispatch(lastTransmit({request: this.request}))
     this.store.dispatch(listData({request: this.request}))
+  }
+
+  updateUnit(): void {
+    this.unit = this.response[this.selectedUnit].unitnumber;
+    this.vin = this.response[this.selectedUnit].name;
+    this.fetchData();
   }
 }
