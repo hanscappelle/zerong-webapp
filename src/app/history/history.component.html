@@ -24,6 +24,8 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-slide-toggle [(ngModel)]="filterOutNullValues" (change)="updateChart()">Filter out 0/null values </mat-slide-toggle>
+
 </p>
 
 <div class="chart-container">

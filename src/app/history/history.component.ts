@@ -5,7 +5,6 @@ import {Transmit} from "../model/transmit.model";
 import {initialRequest} from "../model/data-request.model";
 import {Store} from "@ngrx/store";
 import {Chart, ChartType} from 'chart.js/auto'
-import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-history',
@@ -32,6 +31,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
   selectedChartType = 'bar';
 
   chart: any;
+  labels: string[] = [];
+
+  filterOutNullValues: boolean = false;
 
   constructor(
     private store: Store,
@@ -70,12 +72,12 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
   private createChart(data: Transmit[], property: string) {
     this.chart?.destroy();
-
+    this.labels = data.map(t => this.makeLabel(t));
     this.chart = new Chart("Chart", {
       type: this.selectedChartType as ChartType,
       data: {
         // values on X-Axis, date based
-        labels: data.map(t => this.makeLabel(t)),
+        labels: this.labels,
         datasets: [
           {
             label: property,
@@ -107,7 +109,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   }
 
   private valuesByDate(data: Transmit[], property: string) {
-    return data.map(t => {
+    const values = data.map(t => {
       const result = Object.entries(t).find(kv => kv[0] === property);
       if (result?.length === 2) {
         return result[1];
@@ -115,6 +117,23 @@ export class HistoryComponent implements OnInit, OnDestroy {
         return 0;
       }
     });
+    // remove all empty values here if that option is set
+    if (this.filterOutNullValues) {
+      let deletes = 0;
+      values.forEach((value, index) => {
+        if (this.isEmpty(value)) {
+          this.labels.splice(index - deletes, 1)
+          deletes = deletes + 1;
+        }
+      });
+      return values.filter((value, index) => !this.isEmpty(value));
+    } else {
+      return values;
+    }
+  }
+
+  private isEmpty(value: any): boolean {
+    return !value || value === 0 || value.length === 0
   }
 
 }

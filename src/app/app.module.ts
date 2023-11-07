@@ -19,6 +19,7 @@ import {DataEffects} from "./state/data.effects";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreModule} from "@ngrx/store";
 import {MatSelectModule} from "@angular/material/select";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import {MatSelectModule} from "@angular/material/select";
     }, {}),
     EffectsModule.forRoot([DataEffects]),
     MatSelectModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
