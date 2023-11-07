@@ -45,6 +45,13 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.data$.pipe(takeUntil(this.sub))
       .subscribe({
         next: (data) => {
+          // combine all data
+          data = data.flatMap(items => items)
+          // sort all data from different requests based on date
+          data = data.sort((a, b) => {
+            return Number(a.datetime_actual) - Number(b.datetime_actual);
+          });
+          // no need to sort labels, those are created from already sorted data
           if (data && data.length > 0) {
             this.data = data;
             if (data && data.length > 0) {

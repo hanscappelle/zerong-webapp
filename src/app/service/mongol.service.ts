@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import {forkJoin, Observable, of} from "rxjs";
 import {DataRequest} from "../model/data-request.model";
 import {Transmit} from "../model/transmit.model";
 import {Unit} from "../model/unit.model";
 import {formatDate} from "@angular/common";
+import _default from "chart.js/dist/core/core.interaction";
+import index = _default.modes.index;
 
 @Injectable({
   providedIn: 'root'
@@ -41,10 +43,22 @@ export class MongolService {
     return this.getLastTransmit(request.user, request.pass, request.unit ?? '');
   }
 
-  listTransmits(request: DataRequest): Observable<Transmit[]> {
-    // TODO implement getting history per 2 days but repeated over longer timespan
-
+  listTransmits(request: DataRequest): Observable<any> {
+    // get history per 2 days but repeated over longer timespan
+    let obs: Observable<any>[] = [];
+    // 10 * 2 days
     const date = new Date();
+    [...Array(10).keys()].forEach(index => {
+      const adaptedDate = new Date(date);
+      adaptedDate.setDate(date.getDate() - 2 * index);
+      obs.push(this.getDataFor2DaysFrom(request, adaptedDate));
+      //this.getDataFor2DaysFrom(request, new Date(date).setDate(date.getDate() - 2)),
+    });
+    return forkJoin(obs);
+
+  }
+
+  private getDataFor2DaysFrom(request: DataRequest, date: Date): Observable<Transmit[]> {
     const end = request.end ?? formatDate(date, 'yyyyMMddHHmmss', 'en');
     date.setDate(date.getDate() - 2);
     const start = request.start ?? formatDate(date, 'yyyyMMddHHmmss', 'en');
