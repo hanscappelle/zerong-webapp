@@ -1,9 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {MongolService} from "../service/mongol.service";
 import {Store} from "@ngrx/store";
 import {listData, login} from "../state/data.actions";
-import {DataRequest} from "../model/data-request.model";
+import {DataRequest, initialRequest} from "../model/data-request.model";
 import {selectAllUnits} from "../state/data.selectors";
 import {Subject, takeUntil} from "rxjs";
 import {Unit} from "../model/unit.model";
@@ -23,13 +21,7 @@ export class GetUnitsComponent implements OnInit, OnDestroy {
   unit: string | null = null;
   vin: string | null = null;
 
-  request: DataRequest = {
-    user: this.username,
-    pass: this.password,
-    unit: this.unit,
-    start: null,
-    end: null,
-  }
+  request = initialRequest();
 
   data$ = this.store.select(selectAllUnits);
   sub: Subject<boolean> = new Subject<boolean>();
