@@ -4,6 +4,8 @@ This is a simple web app for visualisation of Zero Motorcycles cloud data. Once 
 your zero login (the one used in the official zero app that is linked to your bike) you can
 query your motorcycles cloud data in a generic way.
 
+The app is hosted using firebase and available at https://zerong-a5759.web.app/
+
 Below example is 12V battery voltage over time. The current version of this app will fetch
 data for the last 20 days. 
 
