@@ -11,6 +11,12 @@ data for the last 20 days.
 
 Feel free to share interesting data views you've found this way or issues or feature requests.
 
+Since this is an angular app using material design this should also render on mobile devices. 
+The graph will adapt to the screen size. For a better view of data on smaller screens make
+sure to use the device in landscape. 
+
+![example mobile screen](https://raw.githubusercontent.com/hanscappelle/zerong-webapp/main/release/Screenshot-20231107-185803.png)
+
 # Development
 
 ## Initial project setup
