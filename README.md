@@ -1,12 +1,23 @@
 # Zerong
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
+This is a simple web app for visualisation of Zero Motorcycles cloud data. Once you've provided
+your zero login (the one used in the official zero app that is linked to your bike) you can
+query your motorcycles cloud data in a generic way.
+
+Below example is 12V battery voltage over time. The current version of this app will fetch
+data for the last 20 days. 
+
+![example graph data](https://raw.githubusercontent.com/hanscappelle/zerong-webapp/main/release/Screenshot%202023-11-07%20at%2015.19.42.png)
+
+Feel free to share interesting data views you've found this way or issues or feature requests.
 
 # Development
 
 ## Initial project setup
 
 (just for reference, only needed once)
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
 
 With node and angular installed create a new project with below command & answer questions.
 
